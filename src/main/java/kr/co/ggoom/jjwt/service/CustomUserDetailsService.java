@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.ggoom.jjwt.entity.User;
 import kr.co.ggoom.jjwt.repository.UserRepository;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,17 +25,20 @@ import java.util.stream.Collectors;
  * @author Bomnarain
  *
  */
-@Component("userDetailsService")
-@Service
+@AllArgsConstructor
+@Component
+@Service("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 	
 private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
    private final UserRepository userRepository;
-
+   
+   /* @AllArgsConstructor 어노테이션 사용으로 아래 코드가 필요 없어짐 
    public CustomUserDetailsService(UserRepository userRepository) {
       this.userRepository = userRepository;
    }
+   */
 
    @Override
    @Transactional
@@ -46,6 +50,7 @@ private final Logger log = LoggerFactory.getLogger(this.getClass());
 		   log.debug("memeber : {}", member.toString());
 	   } else {
 		   log.debug("memeber : 정보없음");
+		   throw new UsernameNotFoundException("UsernameNotFoundException");
 	   }
 	   // 확인용
 	   return userRepository.findOneWithAuthoritiesByUsername(username)

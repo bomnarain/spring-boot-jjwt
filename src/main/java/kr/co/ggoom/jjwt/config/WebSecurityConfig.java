@@ -1,6 +1,7 @@
 package kr.co.ggoom.jjwt.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -69,6 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Bean
+    // BCryptPasswordEncoder는 Spring Security에서 제공하는 비밀번호 암호화 객체입니다.
+    // Service에서 비밀번호를 암호화할 수 있도록 Bean으로 등록합니다.    
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -80,7 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/h2-console/**"
                         ,"/favicon.ico"
                         ,"/error"
-                );
+                )
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()); // js, css, image 설정은 보안 설정의 영향 밖에 있도록 만들어주는 설정.
     }
     
     @Override

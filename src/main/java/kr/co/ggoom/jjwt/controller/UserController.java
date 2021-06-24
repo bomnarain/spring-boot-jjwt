@@ -12,10 +12,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
-public class MemberController {
+public class UserController {
     private final UserService userService;
 
-    public MemberController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
